@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { StoreContext } from "../../context/StoreContext";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
@@ -12,6 +12,15 @@ const Navbar = ({ setShowLogin }) => {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Sync menu state based on route
+  useEffect(() => {
+    if (location.pathname === "/cart") {
+      setMenu("cart");
+    } else if (location.pathname === "/") {
+      setMenu("home");
+    }
+  }, [location.pathname]);
 
   // Scroll to target section
   const scrollToSection = (id) => {
@@ -85,14 +94,20 @@ const Navbar = ({ setShowLogin }) => {
 
       <div className="navbar-right">
         <img src={assets.search_icon} alt="search_icon" />
+
         <div className="navbar-basket-icon">
-          <Link to="/cart">
+          <Link
+            to="/cart"
+            onClick={() => setMenu("cart")}
+            className={menu === "cart" ? "active" : ""}
+          >
             <img src={assets.basket_icon} alt="basket_icon" />
           </Link>
           <div className={totalQuantity === 0 ? "dotHidden" : "dot"}>
             <p>{totalQuantity}</p>
           </div>
         </div>
+
         <button onClick={() => setShowLogin(true)}>Sign in</button>
       </div>
     </div>

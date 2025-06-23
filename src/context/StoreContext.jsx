@@ -16,7 +16,6 @@ const StoreContextProvider = (props) => {
 
   const removeFromCart = (itemId) => {
     if (cartItems[itemId] === 1) {
-      // Remove the item if the quantity becomes zero
       const newCartItems = { ...cartItems };
       delete newCartItems[itemId];
       setCartItems(newCartItems);
